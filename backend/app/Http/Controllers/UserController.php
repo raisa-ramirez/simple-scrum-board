@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +15,11 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::simplePaginate(5);
+            $users = User::simplePaginate(5);
 
             return response()->json([
                 'message' => 'Resultados obtenidos',
-                'data' => $categories
+                'data' => $users
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -28,7 +27,8 @@ class CategoryController extends Controller
                 'code' => $th->getCode()
             ], 500);
         }
-    }    
+
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,23 +36,32 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required'
+            $validator = Validator::make($request->all(),[
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'role_id' => 'required',
+                'password' => 'required'
             ]);
-
             if($validator->fails()){
                 return response()->json([
                     'message' => 'Ha ocurrido un error',
-                    'error' => $validator->getRules()
+                    'code' => $validator->getRules()
                 ], 500);
             }
-            $category = $request->all();
 
-            $category = Category::create($category);
+            // Check this later
+            // $user = new User();
+            // $user->name = $request->name;
+            // $user->email = $request->email;
+            // $user->role_id = $request->role_id;
+            // $user->password = Hash::make($request->password);
+            // $user->save();
+            $user = $request->all();
+            $user = User::create($user);
 
             return response()->json([
                 'message' => 'Registro insertado',
-                'data' => $category
+                'data' => $user
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -60,39 +69,43 @@ class CategoryController extends Controller
                 'code' => $th->getCode()
             ], 500);
         }
-    } 
-
+    }
+    
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, int $id)
     {
         try {
-            $category = Category::find($id);
+            $user = User::find($id);
 
-            if(!empty($category)){
+            if(!empty($user)){
                 $validator = Validator::make($request->all(),[
-                    'name' => 'required'
+                    'name' => 'required',
+                    'email' => 'required|unique:users,email,'.$user->id,
+                    'role_id' => 'required'
                 ]);
                 if($validator->fails()){
                     return response()->json([
-                        'message' => 'Ha ocurrido un error'
+                        'message' => 'Ha ocurrido un error',
+                        'error' => $validator->getRules()
                     ], 500);
                 }
-                $category->name = $request->name;
-                $category->updated_at = now();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->role_id = $request->role_id;
 
-                $category->save();
+                $user->save();
 
                 return response()->json([
                     'message' => 'Registro actualizado',
-                    'data' => $category
+                    'data' => $user
                 ], 200);
-            } 
+            }
             return response()->json([
-                'message' => 'Registro no encontrado',
+                'message' => 'Registro no encontrado'
             ], 200);
-            
+
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => $th->getMessage(),
@@ -107,18 +120,15 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            $category = Category::find($id);
-
-            if(!empty($category)){
-                $category->delete();
-
+            $user = User::find($id);
+            if(!empty($user)){
+                $user->delete();
                 return response()->json([
                     'message' => 'Registro eliminado',
-                ], 200);  
+                ], 200);
             }
-
             return response()->json([
-                'message' => 'Registro no encontrado'
+                'message' => 'Registro no encontrado',
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -128,13 +138,19 @@ class CategoryController extends Controller
         }
     }
 
-    public function categoriesByUser(int $userId){
+    public function updatePassword(Request $request, int $id){
         try {
-            $categories = User::find($userId)->categories;
+            $user = User::find($id);
+            if(!empty($user)){
+                $user->password = Hash::make($request->password);
+                $user->save();
 
+                return response()->json([
+                    'message' => 'Registro actualizado',
+                ], 200);
+            }
             return response()->json([
-                'message' => 'Resultados obtenidos',
-                'data' => $categories,
+                'message' => 'Registro no encontrado',
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -142,5 +158,5 @@ class CategoryController extends Controller
                 'code' => $th->getCode()
             ], 500);
         }
-    }    
+    }
 }
