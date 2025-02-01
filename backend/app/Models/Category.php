@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Task;
+use App\Models\Category;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -19,5 +23,10 @@ class Category extends Model
     public function user(): belongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
     }
 }

@@ -4,13 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
+use App\Models\Task;
 use App\Models\Category;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\hasOne;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class User extends Authenticatable
 {
@@ -60,5 +62,10 @@ class User extends Authenticatable
     public function categories(): belongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+    
+    public function tasks(): HasManyThrough
+    {
+        return $this->hasManyThrough(Task::class, Category::class);
     }
 }
