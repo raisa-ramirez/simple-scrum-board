@@ -1,0 +1,35 @@
+@import './base.css';
+
+#app {
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+#toolbar {
+  background-color: #B39DDB;
+  color: #fff;
+}
+
+#nav {
+  background-color: #B39DDB;
+  color: #fff;
+}
+
+.nav-item:hover {
+  background-color: #e3f2fd !important;
+  color: #8E24AA !important;
+  cursor: pointer !important;
+}
