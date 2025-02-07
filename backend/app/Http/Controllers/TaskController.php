@@ -50,7 +50,7 @@ class TaskController extends Controller
             if($validator->fails()){
                 return response()->json([
                     'message' => 'Ha ocurrido un error',
-                    'error' => $validator->getRules()
+                    'error' => $validator->errors()
                 ], 500);
             }
 
@@ -87,7 +87,7 @@ class TaskController extends Controller
                 if($validator->fails()){
                     return response()->json([
                         'message' => 'Ha ocurrido un error',
-                        'error' => $validator->getRules()
+                        'error' => $validator->errors()
                     ], 500);
                 }
                 $task->title = $request->title;

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         State::factory()->create(['name' => 'En Progreso']);        
         State::factory()->create(['name' => 'Hecho']); 
 
-        User::factory(2)->create();
+        User::factory(25)->create();
         Category::factory(4)->create()->each(function($category){
             $category->user()->attach(2);
         });
