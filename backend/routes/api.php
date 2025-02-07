@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
@@ -18,3 +19,4 @@ Route::get('/categoriesByUser/{id}', [CategoryController::class,'categoriesByUse
 Route::put('updatePassword/{id}', [UserController::class, 'updatePassword'])->name('updatePassword');
 Route::put('/updateState/{id}', [TaskController::class, 'updateState'])->name('updateState');
 Route::get('/tasksByUser/{id}', [TaskController::class, 'tasksByUser'])->name('tasksByUser');
+Route::get('/roles', [RoleController::class, 'index'])->name('roles');

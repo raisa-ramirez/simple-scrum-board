@@ -5,10 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
 use App\Models\Task;
+use App\Models\User;
 use App\Models\Category;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\hasOne;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
@@ -54,9 +56,9 @@ class User extends Authenticatable
         ];
     }
    
-    public function roles(): HasOne
+    public function rol(): belongsTo
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
     
     public function categories(): belongsToMany
@@ -67,5 +69,12 @@ class User extends Authenticatable
     public function tasks(): HasManyThrough
     {
         return $this->hasManyThrough(Task::class, Category::class);
+    }
+
+    public function getUsers($sortBy, $searchBy, $itemsPerPage){
+        return User::orderBy($sortBy['key'], $sortBy['order'])
+        ->where('name', 'LIKE', "%{$searchBy}%")
+        ->with('rol')
+        ->paginate($itemsPerPage);        
     }
 }

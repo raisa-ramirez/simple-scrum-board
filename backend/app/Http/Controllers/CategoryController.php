@@ -43,7 +43,7 @@ class CategoryController extends Controller
             if($validator->fails()){
                 return response()->json([
                     'message' => 'Ha ocurrido un error',
-                    'error' => $validator->getRules()
+                    'error' => $validator->errors()
                 ], 500);
             }
             $category = $request->all();
@@ -76,7 +76,8 @@ class CategoryController extends Controller
                 ]);
                 if($validator->fails()){
                     return response()->json([
-                        'message' => 'Ha ocurrido un error'
+                        'message' => 'Ha ocurrido un error',
+                        'error' => $validator->errors()
                     ], 500);
                 }
                 $category->name = $request->name;

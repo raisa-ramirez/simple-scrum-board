@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,22 +13,29 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $users = User::simplePaginate(5);
+            $params = $request->all();
 
+            $sortBy = ISSET($params['sortBy'])?$params['sortBy'][0]:['key'=>'id','order'=>'desc'];
+            $itemsPerPage = ISSET($params['itemsPerPage'])?$params['itemsPerPage']:6;
+            $searchBy = ISSET($params['search'])?$params['search']:'';
+            
+            $model = new User();
+            $users = $model->getUsers($sortBy, $searchBy, $itemsPerPage);
+                    
             return response()->json([
-                'message' => 'Resultados obtenidos',
+                'message' => 'Results obtained',
                 'data' => $users
             ], 200);
+
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => $th->getMessage(),
                 'code' => $th->getCode()
             ], 500);
         }
-
     }
 
     /**
@@ -44,12 +52,12 @@ class UserController extends Controller
             ]);
             if($validator->fails()){
                 return response()->json([
-                    'message' => 'Ha ocurrido un error',
-                    'code' => $validator->getRules()
+                    'message' => 'An error has occurred',
+                    'error' => $validator->errors()
                 ], 500);
             }
 
-            // Check this later
+            // Check this later cause the password
             // $user = new User();
             // $user->name = $request->name;
             // $user->email = $request->email;
@@ -60,7 +68,7 @@ class UserController extends Controller
             $user = User::create($user);
 
             return response()->json([
-                'message' => 'Registro insertado',
+                'message' => 'Inserted record',
                 'data' => $user
             ], 200);
         } catch (\Throwable $th) {
@@ -87,8 +95,8 @@ class UserController extends Controller
                 ]);
                 if($validator->fails()){
                     return response()->json([
-                        'message' => 'Ha ocurrido un error',
-                        'error' => $validator->getRules()
+                        'message' => 'An error has occurred',
+                        'error' => $validator->errors()
                     ], 500);
                 }
                 $user->name = $request->name;
@@ -98,12 +106,12 @@ class UserController extends Controller
                 $user->save();
 
                 return response()->json([
-                    'message' => 'Registro actualizado',
+                    'message' => 'Record updated',
                     'data' => $user
                 ], 200);
             }
             return response()->json([
-                'message' => 'Registro no encontrado'
+                'message' => 'Record not found'
             ], 200);
 
         } catch (\Throwable $th) {
@@ -117,18 +125,18 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         try {
             $user = User::find($id);
             if(!empty($user)){
                 $user->delete();
                 return response()->json([
-                    'message' => 'Registro eliminado',
+                    'message' => 'Deleted record',
                 ], 200);
             }
             return response()->json([
-                'message' => 'Registro no encontrado',
+                'message' => 'Record not found',
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -146,11 +154,11 @@ class UserController extends Controller
                 $user->save();
 
                 return response()->json([
-                    'message' => 'Registro actualizado',
+                    'message' => 'Record updated',
                 ], 200);
             }
             return response()->json([
-                'message' => 'Registro no encontrado',
+                'message' => 'Record not found',
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

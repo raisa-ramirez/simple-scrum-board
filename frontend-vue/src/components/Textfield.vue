@@ -1,9 +1,8 @@
 <script setup>
-    const props = defineProps(['model', 'icon'])
+    const props = defineProps(['icon'])
 </script>
 <template>
     <v-text-field
-        :v-model="model"
         :prepend-inner-icon="icon"
         density="compact"        
         variant="outlined"

@@ -10,9 +10,4 @@ class Role extends Model
 {
     /** @use HasFactory<\Database\Factories\RoleFactory> */
     use HasFactory;
-    
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }
