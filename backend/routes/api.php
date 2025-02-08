@@ -19,4 +19,5 @@ Route::get('/categoriesByUser/{id}', [CategoryController::class,'categoriesByUse
 Route::put('updatePassword/{id}', [UserController::class, 'updatePassword'])->name('updatePassword');
 Route::put('/updateState/{id}', [TaskController::class, 'updateState'])->name('updateState');
 Route::get('/tasksByUser/{id}', [TaskController::class, 'tasksByUser'])->name('tasksByUser');
+Route::get('/tasksByCategory/{id}', [TaskController::class, 'tasksByCategory'])->name('tasksByCategory');
 Route::get('/roles', [RoleController::class, 'index'])->name('roles');

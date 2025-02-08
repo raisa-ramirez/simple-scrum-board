@@ -6,5 +6,5 @@
     :color="props.color" 
     :icon="props.icon" 
     density="comfortable"     
-    class="mr-1"></v-btn>
+    class="mr-1 custom-button"></v-btn>
 </template>

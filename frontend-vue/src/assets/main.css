@@ -19,17 +19,47 @@ a,
 }
 
 #toolbar {
-  background-color: #B39DDB;
+  background-color: var(--custom-base-color);
   color: #fff;
 }
 
 #nav {
-  background-color: #B39DDB;
+  background-color: var(--custom-base-color);
   color: #fff;
 }
 
 .nav-item:hover {
   background-color: #e3f2fd !important;
-  color: #8E24AA !important;
+  color: #493D9E !important;
   cursor: pointer !important;
+}
+
+.dragArea .v-card {
+  cursor: grab;
+}
+
+.dragArea .v-card:active {
+  cursor: move;
+}
+
+.dragArea .v-card:active {
+  box-shadow:inset 0px 0px 0px 10px #B39DDB;
+}
+
+.dragArea {
+  border: 1px dashed #B39DDB;
+  padding: 4% 3% 0 3%;
+  min-height: 100vh;
+  border-radius: 20px;
+}
+
+.v-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.custom-button {
+  background-color: var(--custom-base-color) !important;
+  color: white !important;
 }

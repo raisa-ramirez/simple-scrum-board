@@ -11,7 +11,7 @@
     import apiService from '@/services/api.js'
     import { useAlertStore } from '@/stores/alert'
 
-    const title = 'Users page'
+    const title = 'Users'
     const modalTitle = ref('Add user')
     const headers = [
         { title: 'Username', sortable: true, key: 'name' },
@@ -153,6 +153,7 @@
             </h2>
         </v-col>
     </v-row> 
+
     <v-row class="pl-2 pr-2 pb-4">
         <v-col>
             <v-card class="mx-auto" border flat>
