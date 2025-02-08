@@ -15,7 +15,8 @@ const apiService = {
     storeData: (url, data) => api.post(`/${url}`, data),
     updateData: (url, id, data) => api.put(`/${url}/${id}`, data),
     deleteData: (url, id) => api.delete(`/${url}/${id}`),
-    getAll: (request) => { return Promise.all(request) }
+    getAll: (request) => { return Promise.all(request) },
+    getBy: (url,id) => api.get(`/${url}/${id}`)
 }
 
 

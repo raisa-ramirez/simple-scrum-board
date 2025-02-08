@@ -32,6 +32,9 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
+  /* Personalizados x Raisa */
+  --custom-base-color: #493D9E;
+  --custom-text-color: #fff;
 
   --section-gap: 160px;
 }

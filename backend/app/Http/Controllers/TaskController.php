@@ -40,6 +40,7 @@ class TaskController extends Controller
     {
         try {
             $task = $request->all();
+
             $validator = Validator::make($task,[
                 'title' => 'required',
                 'description' => 'required',
@@ -175,6 +176,25 @@ class TaskController extends Controller
                 'message' => 'Resultados obtenidos',
                 'tasksByCategory' => $categories,
                 'allTasks' => $categories->pluck('tasks')->flatten()
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+                'code' => $th->getCode()
+            ], 500);
+        }
+    }
+
+    public function tasksByCategory(int $categoryId){
+        try {
+
+            $tasks = ($categoryId != 0)
+            ?Task::with('category')->where('category_id',$categoryId)->get()
+            :Task::with('category')->get();  
+
+            return response()->json([
+                'message' => 'Resultados obtenidos',
+                'data' => $tasks
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

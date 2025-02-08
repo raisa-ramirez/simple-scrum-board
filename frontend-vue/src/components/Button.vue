@@ -3,8 +3,7 @@
 </script>
 <template>
     <v-btn
-        class="text-none"
-        color="#8E24AA"        
+        class="text-none custom-button"
         variant="elevated"
         rounded="xl"
         size="large"
