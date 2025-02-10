@@ -15,7 +15,7 @@
         alert.value.icon= 'mdi-skull'
         alert.value.color= 'error'
       }
-      setTimeout(() => { state.value = false }, 3000);
+      setTimeout(() => { state.value = false }, 3500);
     })
 </script>
 <template>

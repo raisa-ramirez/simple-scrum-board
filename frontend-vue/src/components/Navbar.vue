@@ -1,4 +1,5 @@
 <script setup>
+    import {ref} from 'vue'
     const appTitle = "Task App";
 
     const navOptions = [
@@ -18,6 +19,9 @@
             route: '/task'
         }
     ]
+
+    const drawer = ref(true)
+    const rail = ref(true)
 </script>
 <template>
     <!-- Navigation drawer -->
@@ -25,14 +29,15 @@
         <v-layout>
             <v-navigation-drawer
                 expand-on-hover
-                rail
                 id="nav"
+                v-model="drawer"
+                :rail="rail && !drawer"
             >
                 <v-list>
                 <v-list-item
-                    prepend-avatar="https://randomuser.me/api/portraits/women/24.jpg"
-                    subtitle="username@gmail.com"
-                    title="Username"
+                    prepend-avatar="https://randomuser.me/api/portraits/women/50.jpg"
+                    subtitle="Ramírez Reyes"
+                    title="Raisa Fabiola"
                 ></v-list-item>
                 </v-list>
 
@@ -44,12 +49,17 @@
             </v-navigation-drawer>
 
             <v-main>
-                <!-- Toolbar -->
-                <v-toolbar
-                    id="toolbar"
-                    :title="appTitle"
-                ></v-toolbar>
-                <!-- Toolbar -->
+                <v-app-bar app class="menu-button">
+                    <v-btn icon @click="drawer = !drawer">
+                        <v-icon>mdi-menu</v-icon>
+                    </v-btn>
+                    <!-- Toolbar -->
+                    <v-toolbar
+                        id="toolbar"
+                        :title="appTitle"
+                    ></v-toolbar>
+                    <!-- Toolbar -->
+                </v-app-bar>                
 
                 <!-- Content -->
                 <router-view></router-view>            

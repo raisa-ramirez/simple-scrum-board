@@ -30,7 +30,7 @@ a,
 
 .nav-item:hover {
   background-color: #e3f2fd !important;
-  color: #493D9E !important;
+  color: var(--custom-base-color) !important;
   cursor: pointer !important;
 }
 
@@ -60,6 +60,11 @@ a,
 }
 
 .custom-button {
+  background-color: var(--custom-base-color) !important;
+  color: white !important;
+}
+
+.menu-button {
   background-color: var(--custom-base-color) !important;
   color: white !important;
 }

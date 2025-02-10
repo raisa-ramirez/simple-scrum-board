@@ -149,7 +149,7 @@
     <v-row class="ml-1 mt-1">
         <v-col>            
             <h2>
-                <v-icon color="#8E24AA">mdi-lightning-bolt</v-icon> {{ title }}
+                <v-icon style="color:var(--custom-base-color)">mdi-lightning-bolt</v-icon> {{ title }}
             </h2>
         </v-col>
     </v-row> 

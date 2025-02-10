@@ -42,19 +42,23 @@
 
     const v$ = useVuelidate(rules, fields)
 
-    const start = async () => {        
-        let [ lstCategories, lstTasks ] = await apiService.getAll([
-            apiService.getBy('categoriesByUser', 2), // Replace by current user
-            apiService.getBy('tasksByCategory', 0)
-        ])
-        
-        formCategories.value = [...lstCategories.data.data]
-        categories.value = [...lstCategories.data.data]
-        categories.value.push({id:0, name:'All categories'})
-        category.value = 0
-        if(categories.value.length>0){
-            filterTasks(lstTasks.data.data)
-        }         
+    const start = async () => {  
+        try {
+            let [ lstCategories, lstTasks ] = await apiService.getAll([
+                apiService.getBy('categoriesByUser', 2), // Replace by current user
+                apiService.getBy('tasksByCategory', 0)
+            ])
+            
+            formCategories.value = [...lstCategories.data.data]
+            categories.value = [...lstCategories.data.data]
+            categories.value.push({id:0, name:'All categories'})
+            category.value = 0
+            if(categories.value.length>0){
+                filterTasks(lstTasks.data.data)
+            }   
+        } catch (error) {
+            showAlert('error',error)
+        }     
     }
 
     const filterTasks = (lstTasks) => {        
